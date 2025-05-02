@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Argo Workflow Dashboard</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    h1 { color: #4b4; }
+    pre { background: #eee; padding: 1rem; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <h1>Latest Argo Workflow Results</h1>
+  <div id="results">Loading...</div>
+  <script>
+    fetch('../data/latest.json')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('results').innerHTML =
+          `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+      })
+      .catch(err => {
+        document.getElementById('results').textContent = 'Failed to load results.';
+        console.error(err);
+      });
+  </script>
+</body>
+</html>

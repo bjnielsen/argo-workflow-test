@@ -1,0 +1,32 @@
+name: Submit Argo Workflow
+
+on:
+  push:
+    paths:
+      - 'templates/example-workflow.yaml'
+      - '.github/workflows/submit-argo.yaml'
+
+jobs:
+  argo-submit:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Setup kubectl
+      run: |
+        echo "${{ secrets.KUBECONFIG }}" > kubeconfig
+        export KUBECONFIG=$PWD/kubeconfig
+        kubectl config get-contexts
+
+    - name: Install Argo CLI
+      run: |
+        curl -sLO https://github.com/argoproj/argo-workflows/releases/download/v3.5.7/argo-linux-amd64
+        chmod +x argo-linux-amd64
+        sudo mv argo-linux-amd64 /usr/local/bin/argo
+        argo version
+
+    - name: Submit Argo workflow
+      run: |
+        export KUBECONFIG=$PWD/kubeconfig
+        argo submit templates/example-workflow.yaml -n argo --wait

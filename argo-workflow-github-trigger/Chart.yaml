@@ -1,0 +1,5 @@
+apiVersion: v2
+name: argo-workflow-test
+description: Dedicated ServiceAccount and test workflow for Argo Workflows
+version: 0.1.0
+appVersion: "v3.5.7"

@@ -1,0 +1,6 @@
+namespace: argo
+
+workflow:
+  serviceAccountName: argo-workflow
+  workflowName: pipeline-with-outputs
+  image: alpine:3.18
