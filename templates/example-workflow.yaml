@@ -60,3 +60,4 @@ spec:
       command: [sh]
       source: |
         echo "Final summary: {{inputs.parameters.summary}}"
+# trigger deploy
