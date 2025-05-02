@@ -62,3 +62,4 @@ spec:
         echo "Final summary: {{inputs.parameters.summary}}"
 # trigger deploy
 # trigger deploy
+# trigger deploy
