@@ -24,8 +24,8 @@ jobs:
         run: |
           curl -sSfL https://github.com/argoproj/argo-workflows/releases/download/v3.6.7/argo-linux-amd64.gz -o argo-linux-amd64.gz
           gunzip argo-linux-amd64.gz
-          chmod +x argo-linux-amd64.gz
-          sudo mv argo-linux-amd64.gz /usr/local/bin/argo
+          chmod +x argo-linux-amd64
+          sudo mv argo-linux-amd64 /usr/local/bin/argo
           argo version
 
       - name: Submit Argo workflow
