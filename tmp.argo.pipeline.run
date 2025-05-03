@@ -1,0 +1,39 @@
+# from:
+runaisupport@gpu-master:/home.local/runaisupport/argo-workflow-test$ argo submit templates/example-workflow.yaml -n argo --wait
+
+runaisupport@gpu-master:/home.local/runaisupport/argo-workflow-test$ kubectl get wf -n argo
+NAME                    STATUS      AGE     MESSAGE
+hello-world-ddpw2       Succeeded   136m
+hello-world-l4gkw       Error       147m    Error (exit code 64): workflowtaskresults.argoproj.io is forbidden: User "system:serviceaccount:argo:default" cannot create resource "workflowtaskresults" in API group "argoproj.io" in the namespace "argo"
+hello-world-sa-j4fl9    Succeeded   126m
+pipeline-with-outputs   Succeeded   7m22s
+simple-pipeline-bfjr4   Succeeded   119m
+runaisupport@gpu-master:/home.local/runaisupport/argo-workflow-test$ kubectl get wf pipeline-with-outputs -n argo -o yaml | grep gpu-node
+      hostNodeName: gpu-node10
+      hostNodeName: gpu-node5
+      hostNodeName: gpu-node5
+      hostNodeName: gpu-node10
+      hostNodeName: gpu-node10
+runaisupport@gpu-master:/home.local/runaisupport/argo-workflow-test$ argo get pipeline-with-outputs -n argo
+Name:                pipeline-with-outputs
+Namespace:           argo
+ServiceAccount:      argo-workflow
+Status:              Succeeded
+Conditions:
+ PodRunning          False
+ Completed           True
+Created:             Fri May 02 17:17:01 -0700 (7 minutes ago)
+Started:             Fri May 02 17:17:01 -0700 (7 minutes ago)
+Finished:            Fri May 02 17:17:45 -0700 (6 minutes ago)
+Duration:            44 seconds
+Progress:            5/5
+ResourcesDuration:   1s*(1 cpu),31s*(100Mi memory)
+
+STEP                      TEMPLATE          PODNAME                                           DURATION  MESSAGE
+ ✔ pipeline-with-outputs  pipeline
+ ├───✔ generate           generate-numbers  pipeline-with-outputs-generate-numbers-439095630  15s
+ ├─┬─✔ process(0:A)       process-number    pipeline-with-outputs-process-number-2718404721   3s
+ │ ├─✔ process(1:B)       process-number    pipeline-with-outputs-process-number-3003931411   3s
+ │ └─✔ process(2:C)       process-number    pipeline-with-outputs-process-number-1409563169   3s
+ └───✔ finalize           finalize          pipeline-with-outputs-finalize-455596173          3s
+runaisupport@gpu-master:/home.local/runaisupport/argo-workflow-test$
